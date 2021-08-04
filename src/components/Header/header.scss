@@ -1,0 +1,16 @@
+.header {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0.5rem;
+  height: 3rem;
+  overflow: hidden;
+
+  * {
+    height: 100%;
+  }
+}

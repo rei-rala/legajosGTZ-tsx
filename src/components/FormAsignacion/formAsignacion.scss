@@ -1,0 +1,15 @@
+.asignacionContainer {
+  & > h3 {
+    text-align: center;
+  }
+  hr {
+    margin: 0.5rem 0;
+  }
+  & > form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+  }
+}

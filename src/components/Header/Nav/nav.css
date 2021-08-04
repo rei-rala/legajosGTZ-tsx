@@ -1,0 +1,21 @@
+.navList {
+  display: flex;
+  gap: 0.5rem;
+
+  list-style-type: none;
+  height: 100%;
+}
+
+.navList li {
+  display: flex;
+  align-items: center;
+
+  text-align: center;
+  background-color: red;
+  cursor: pointer;
+}
+
+.navList li a {
+  display: flex;
+  align-items: center;
+}
