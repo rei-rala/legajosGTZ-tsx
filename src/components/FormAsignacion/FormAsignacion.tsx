@@ -2,23 +2,33 @@ import React, { useContext } from 'react'
 import { Analistas } from '../../contexts/AnalistasContext'
 import { Legajos } from '../../contexts/LegajosContext'
 
-import { IAnalista, ILegajo} from '../../interfaces/DB.interface'
+import { IAnalista, ILegajo } from '../../interfaces/DB.interface'
 import OptionAsignacion from './OptionAsignacion/OptionAsignacion'
 
 import './formAsignacion.scss'
 
 const FormAsignacion: React.FC = () => {
   const { AnalistasFB } = useContext(Analistas)
-  const { LegajosFB } = useContext(Legajos)
+  const { LegajosFB, asignarLegajo } = useContext(Legajos)
+
+  const submitAsignacion = (e:any) => {
+    e.preventDefault();
+    
+    const idLegajo = e.target.legajoSelect.value
+    const idAnalista = e.target.analista.value
+    
+    asignarLegajo(idLegajo, idAnalista)
+
+  }
   
   return (<div className="asignacionContainer">
     
     <h3>Asignacion de legajo</h3>
     <hr />
 
-    <form onSubmit={e => e.preventDefault()}>
+    <form onSubmit={submitAsignacion}>
       <div className="group">
-        <label htmlFor="legajoSelect"></label>
+        <label htmlFor="legajoSelect">Empresa </label>
         <select name="legajo" id="legajoSelect" required>
           <option value=""> Seleccione legajo</option>
           <optgroup label="Empresa">
@@ -30,7 +40,7 @@ const FormAsignacion: React.FC = () => {
                     .map((l:ILegajo) => {
                       return <OptionAsignacion
                         key={l.id}
-                        valor={l.codSolicitud}
+                        valor={l.id}
                         validacion={!l.asignado}
                       >
                         {l.razonSocial}
@@ -42,7 +52,7 @@ const FormAsignacion: React.FC = () => {
       </div>
 
       <div className="group">
-        <label htmlFor="analistaSelect"></label>
+        <label htmlFor="analistaSelect">Analista </label>
         <select name="analista" id="analistaSelect" required>
         <option value=""> Seleccione analista</option>
           <optgroup label="Disponibles">

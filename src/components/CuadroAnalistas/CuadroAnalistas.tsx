@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Analistas } from '../../contexts/AnalistasContext'
 import { Legajos } from '../../contexts/LegajosContext'
 
-import {IAnalista, ILegajo} from '../../interfaces/DB.interface'
+import { IAnalista, ILegajo } from '../../interfaces/DB.interface'
 
 import './cuadroAnalistas.scss'
 import EmpresaCuadroAnalista from './EmpresaCuadroAnalista/EmpresaCuadroAnalista'

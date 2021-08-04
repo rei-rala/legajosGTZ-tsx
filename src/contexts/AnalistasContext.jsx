@@ -6,7 +6,7 @@ export const Analistas = createContext();
 
 export const AnalistasContext = ({ children }) => {
   const [AnalistasFB, setAnalistasFB] = useState(null)
-  const manageAnalistasFirebase = arrayAnalistas => setAnalistasFB(arrayAnalistas);
+  const manageAnalistas = arrayAnalistas => setAnalistasFB(arrayAnalistas);
 
   useEffect(() => {
     db.collection('analistas')
@@ -14,7 +14,7 @@ export const AnalistasContext = ({ children }) => {
         return { id: doc.id, ...doc.data() }
       }))
       .then(analistasDB => analistasDB.sort((a, b) => a.nombre.localeCompare(b.nombre)))
-      .then(manageAnalistasFirebase)
+      .then(manageAnalistas)
       .catch(console.error)
   }, [])
 
@@ -24,5 +24,5 @@ export const AnalistasContext = ({ children }) => {
     }, [AnalistasFB]) */
 
 
-  return <Analistas.Provider value={{ AnalistasFB }}> {children} </Analistas.Provider>;
+  return <Analistas.Provider value={{ AnalistasFB, manageAnalistas }}> {children} </Analistas.Provider>;
 }
