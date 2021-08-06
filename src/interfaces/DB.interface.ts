@@ -13,9 +13,12 @@ export interface ILegajo {
   codSolicitud: number;
   estado: string;
   fechaIngresoShort: string;
-  fechaIngresoFull: string;
+  fechaIngresoFull: any;
   fechaAsignadoShort: string;
-  fechaAsignadoFull: string;
+  fechaAsignadoFull: Date;
   nivelLegajo: string;
   razonSocial: string;
+  analistaAsignadoNombre?: string;
+  tipoAnalista?: string;
+  diasGR?: number;
 }

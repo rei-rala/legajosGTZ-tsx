@@ -25,6 +25,14 @@
       tr:nth-child(2n) {
         background-color: hsla(198, 100%, 43%, 0.25);
       }
+
+      .toggleLicencia {
+        transition: all 0.25s;
+        cursor: pointer;
+      }
+      .toggleLicencia:hover {
+        color: red;
+      }
     }
   }
 }

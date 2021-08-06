@@ -10,7 +10,10 @@
   height: 3rem;
   overflow: hidden;
 
-  * {
-    height: 100%;
+  border-bottom: 2px solid #0b7cc1;
+  background-color: #0b7cc1;
+
+  img {
+    height: 3rem;
   }
 }

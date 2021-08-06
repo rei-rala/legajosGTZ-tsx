@@ -4,14 +4,16 @@
 
 .logo img {
   object-fit: cover;
-  height: inherit;
+  max-height: inherit;
   margin-right: 0.5rem;
+  filter: brightness(0) invert(1);
+  cursor: pointer;
 }
 .logot {
   image-rendering: pixelated;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 864px) {
   .logot {
     display: none;
   }

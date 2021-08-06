@@ -1,21 +1,34 @@
 .navList {
   display: flex;
   gap: 0.5rem;
-
+  height: 3rem;
   list-style-type: none;
-  height: 100%;
 }
 
 .navList li {
   display: flex;
   align-items: center;
-
-  text-align: center;
-  background-color: red;
-  cursor: pointer;
 }
 
-.navList li a {
-  display: flex;
-  align-items: center;
+.navList > li > a {
+  text-decoration: none;
+  cursor: pointer;
+  width: 7rem;
+  transition: all 0.15s;
+  color: white;
+}
+
+.navList > li > a:hover {
+  font-weight: bold;
+}
+
+.onPage {
+  text-decoration: 1px underline aliceblue;
+}
+
+@media screen and (max-width: 864px) {
+  .navList {
+    gap: 0rem;
+    width: auto;
+  }
 }

@@ -8,6 +8,9 @@ export const AnalistasContext = ({ children }) => {
   const [AnalistasFB, setAnalistasFB] = useState(null)
   const manageAnalistas = arrayAnalistas => setAnalistasFB(arrayAnalistas);
 
+  const [toggleRefresh, setToggleRefresh] = useState(0)
+  const activateRefresh = () => setToggleRefresh(toggleRefresh + 1)
+
   useEffect(() => {
     db.collection('analistas')
       .get().then(query => query.docs.map(doc => {
@@ -16,13 +19,32 @@ export const AnalistasContext = ({ children }) => {
       .then(analistasDB => analistasDB.sort((a, b) => a.nombre.localeCompare(b.nombre)))
       .then(manageAnalistas)
       .catch(console.error)
-  }, [])
+  }, [toggleRefresh])
 
-  /*   useEffect(() => {
-      if (AnalistasFB) { console.table(AnalistasFB) }
-      else { console.info('Obteniendo info sobre analistas') }
-    }, [AnalistasFB]) */
+  const toggleLicencia = (idAnalista, actualmenteLicencia) => {
+    const analista = AnalistasFB.find(a => a.id === idAnalista);
+
+    if (window.confirm(`Desea ${actualmenteLicencia ? 'remover' : 'colocar'} licencia para ${analista.nombre}?`)) {
+
+      db.collection('analistas').doc(idAnalista).set({
+        nombre: analista.nombre,
+        nivelPredefinido: analista.nivelPredefinido,
+        licencia: !analista.licencia,
+        tipoAnalista: analista.tipoAnalista
+      })
+        .then(() => {
+          activateRefresh()
+        })
+        .then(() => {
+          alert(`Licencia ${actualmenteLicencia ? 'removida' : 'colocada'} para ${analista.nombre}`)
+        })
+        .catch((error) => {
+          alert("Hubo un error al actualizar:\n", error);
+        });
+
+    }
+  }
 
 
-  return <Analistas.Provider value={{ AnalistasFB, manageAnalistas }}> {children} </Analistas.Provider>;
+  return <Analistas.Provider value={{ AnalistasFB, manageAnalistas, toggleLicencia }}> {children} </Analistas.Provider>;
 }

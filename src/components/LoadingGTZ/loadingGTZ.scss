@@ -1,0 +1,62 @@
+.loadContainer {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  height: 10rem;
+  width: 100%;
+  background: hsla(203, 89%, 40%, 1);
+  background: linear-gradient(
+    0deg,
+    hsla(203, 89%, 40%, 0.5) 0%,
+    white 35%,
+    white 65%,
+    hsla(203, 89%, 40%, 0.5) 100%
+  );
+  border-bottom: 1px solid hsla(203, 89%, 40%, 1);
+  border-top: 1px solid hsla(203, 89%, 40%, 1);
+  padding: 0.5rem 0;
+
+  .box {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    will-change: transform;
+    position: relative;
+    bottom: -10px;
+  }
+
+  .box.one {
+    --bounce-height: -20px;
+    --animation-duration: 200ms;
+  }
+  .box.two {
+    --bounce-height: -30px;
+    --animation-duration: 300ms;
+  }
+  .box.three {
+    --bounce-height: -40px;
+    --animation-duration: 400ms;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .box {
+    animation: bounce var(--animation-duration) infinite alternate
+      cubic-bezier(0.2, 0.65, 0.6, 1);
+  }
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(var(--bounce-height));
+  }
+}

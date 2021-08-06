@@ -1,15 +1,26 @@
 .asignacionContainer {
+  padding: 1rem;
   & > h3 {
     text-align: center;
   }
-  hr {
-    margin: 0.5rem 0;
-  }
+
   & > form {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 
     width: 100%;
+
+    .group {
+      max-width: 30%;
+      text-align: center;
+    }
+
+    select {
+      width: 15rem;
+      max-width: 65%;
+    }
   }
 }

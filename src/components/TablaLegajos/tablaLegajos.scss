@@ -25,6 +25,14 @@
       tr:nth-child(2n) {
         background-color: hsla(198, 100%, 43%, 0.25);
       }
+
+      .nombreAnalista {
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .nombreAnalista:hover {
+        color: red;
+      }
     }
   }
 }

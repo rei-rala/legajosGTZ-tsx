@@ -8,8 +8,8 @@ export const LegajosContext = ({ children }) => {
   const [LegajosFB, setLegajosFB] = useState(null)
   const manageLegajos = arrayLegajos => setLegajosFB(arrayLegajos);
 
-  const [toggleRefresh, setToggleRefresh] = useState(false)
-  const activateRefresh = () => setToggleRefresh(!toggleRefresh)
+  const [toggleRefresh, setToggleRefresh] = useState(0)
+  const activateRefresh = () => setToggleRefresh(toggleRefresh + 1)
 
 
   const asignarLegajo = (idLegajo, idAnalista) => {
@@ -17,11 +17,13 @@ export const LegajosContext = ({ children }) => {
     const shortDate = `${fullDate.getDate()}/${fullDate.getMonth() + 1}/${fullDate.getFullYear()}`
     const legajoAsignado = LegajosFB.find(l => l.id === idLegajo);
 
+
+    // La documentacion de firestore dice que si existe el documento apuntado en un set, que podriamos enviar solo los campos a modificar, pero no fue asi segun mis pruebas, por ello es que envio el objeto completo.
     db.collection('legajos').doc(idLegajo).set({
       analistaAsignadoId: idAnalista,
       asignado: true,
       codSolicitud: legajoAsignado.codSolicitud,
-      estado: 'asignado',
+      estado: 'Asignado',
       fechaAsignadoFull: fullDate,
       fechaAsignadoShort: shortDate,
       fechaIngresoFull: legajoAsignado.fechaIngresoFull,
@@ -34,7 +36,7 @@ export const LegajosContext = ({ children }) => {
         activateRefresh()
       })
       .catch((error) => {
-        console.error("Error writing document: ", error);
+        alert("Hubo un error al actualizar:\n", error);
       });
   }
 
@@ -81,7 +83,7 @@ export const LegajosContext = ({ children }) => {
 
 
   useEffect(() => {
-    if (LegajosFB) { setLegajosFB([]); console.table(LegajosFB); setLegajosFB(LegajosFB) }
+    if (LegajosFB) { setLegajosFB([]); /* console.table(LegajosFB); */ setLegajosFB(LegajosFB) }
     else { console.info('Obteniendo info sobre legajos') }
   }, [LegajosFB])
 

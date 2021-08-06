@@ -1,41 +1,72 @@
-import React, { useContext } from 'react'
-import { Analistas } from '../../contexts/AnalistasContext'
-import { Legajos } from '../../contexts/LegajosContext'
+import React, { useContext } from "react";
+import { useState } from "react";
+import { Analistas } from "../../contexts/AnalistasContext";
+import { Legajos } from "../../contexts/LegajosContext";
 
-import { IAnalista, ILegajo } from '../../interfaces/DB.interface'
+import { IAnalista, ILegajo } from "../../interfaces/DB.interface";
 
-import './cuadroAnalistas.scss'
-import EmpresaCuadroAnalista from './EmpresaCuadroAnalista/EmpresaCuadroAnalista'
-
-
+import "./cuadroAnalistas.scss";
+import EmpresaCuadroAnalista from "./EmpresaCuadroAnalista/EmpresaCuadroAnalista";
 
 const CuadroAnalistas: React.FC = () => {
-  const { AnalistasFB } = useContext(Analistas)
-  const { LegajosFB } = useContext(Legajos)
-  
+  const { AnalistasFB } = useContext(Analistas);
+  const { LegajosFB } = useContext(Legajos);
+
+  const [mostrarAusencias, setMostrarAusencias] = useState(false);
+  const manageAusencias = () => setMostrarAusencias(!mostrarAusencias);
+
   return (
-  <div className="cuadroAnalistasContainer">
-  {
-    !AnalistasFB
-    ? 'Cargando...'
-    : <>
-    {
-      AnalistasFB.map(
-        (a:IAnalista) => <div className="cuadroIndividual" key={a.id}>
-        <h4>{a.nombre}</h4>
-        <ul>{
-          !LegajosFB
-          ? 'Cargando'
-          : LegajosFB.map((l:ILegajo) => <EmpresaCuadroAnalista key={l.id} idAnalista={a.id} idAsignado={l.analistaAsignadoId} razonSocial={l.razonSocial}/>)
-        }</ul>
-      </div>)
-    }
-    </>
-  }
+    <section className="vistaCuadroAnalista">
+      <div className="titleContainer">
+        <h3>Vista de analistas por cuadros</h3>
+        {
+          !AnalistasFB
+            ? "Aguarde"
+            : (
+              AnalistasFB.find((a: IAnalista) => a.licencia === true)
+                ? <button onClick={manageAusencias}>{mostrarAusencias ? "Mostrar" : "Ocultar"} ausentes </button>
+                : null
+            )
+        }
+      </div>
 
-  </div>
-)
-}
+      <hr />
 
+      <div className="cuadroAnalistasContainer">
+        {!AnalistasFB ? (
+          "Cargando..."
+        ) : (
+          <>
+            {AnalistasFB.map((a: IAnalista) => (
+              <div
+                className={`cuadroIndividual ${mostrarAusencias && a.licencia
+                  ? "cuadroOcultar"
+                  : a.licencia
+                    ? "conLicencia"
+                    : ""
+                  }`}
+                key={a.id}
+              >
+                <h4>{a.nombre}</h4>
+                <ul>
+                  {!LegajosFB
+                    ? "Cargando"
+                    : LegajosFB.map((l: ILegajo) => (
+                      <EmpresaCuadroAnalista
+                        key={l.id}
+                        idAnalista={a.id}
+                        idAsignado={l.analistaAsignadoId}
+                        razonSocial={l.razonSocial}
+                      />
+                    ))}
+                </ul>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+    </section>
+  );
+};
 
 export default CuadroAnalistas;

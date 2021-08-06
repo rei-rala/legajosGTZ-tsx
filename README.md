@@ -20,4 +20,12 @@ Eliminacion de asignacion de legajo al hacer click en nombre de analista (sobre 
 Asignacion y eliminacion de asignacion de legajo implica actualizacion de DB en firestore.  
 Componente TableTHSort: sirve para ordernar la tabla visualmente(claro, no altera DB), segun los parametros indicados.  
 Las vistas (CuadroAnalistas, TablaAnalistas, TablaLegajos) se actualizan tras asignacion/eliminacion de asignacion.  
-*¿Por que se me dio por intentar aprender TypeScript con un proyecto en React?*
+*¿Por que se me dio por intentar aprender TypeScript con un proyecto en React?*  
+  
+##### v0.1.0 - 05/Aug/2021.  
+Designadas paginas asignacion, analistas, legajos, test. Presentan diferentes componentes.  
+Ampliadas propiedades en interfaz (en futuro brindara mucha flexibilidad en funcion a los componentes que se utilicen).  
+Componente de carga redisenado.  
+Preparando contextos para ampliar datos almacenados de analistas y legajos, y su cruce entre si, sin alterar DBs.  
+Refactorizados componentes varios.  
+Reestilizados componentes varios.
