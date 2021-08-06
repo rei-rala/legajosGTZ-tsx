@@ -5,8 +5,6 @@ import { Legajos } from "../../contexts/LegajosContext";
 import { IAnalista, ILegajo } from "../../interfaces/DB.interface";
 import TableTHSort from "../TableTHSort/TableTHSort";
 
-import "./tablaAnalistas.scss";
-
 const TablaAnalistas: React.FC = () => {
   const { AnalistasFB, toggleLicencia } = useContext(Analistas);
   const { LegajosFB } = useContext(Legajos);
@@ -26,7 +24,7 @@ const TablaAnalistas: React.FC = () => {
 
   return (
     <section>
-      <div className="tablaAnalistasContainer">
+      <div className="tablaAnalistasContainer tabla">
         <table>
           <thead>
             <tr>
@@ -85,14 +83,14 @@ const TablaAnalistas: React.FC = () => {
                       {!LegajosFB
                         ? "Cargando"
                         : LegajosFB.reduce(
-                            (TotalLegajos: number, Legajo: ILegajo) => {
-                              return (
-                                TotalLegajos +
-                                (Legajo.analistaAsignadoId === a.id ? 1 : 0)
-                              );
-                            },
-                            0
-                          )}
+                          (TotalLegajos: number, Legajo: ILegajo) => {
+                            return (
+                              TotalLegajos +
+                              (Legajo.analistaAsignadoId === a.id ? 1 : 0)
+                            );
+                          },
+                          0
+                        )}
                     </td>
                   </tr>
                 ))}

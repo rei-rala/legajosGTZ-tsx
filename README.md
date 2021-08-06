@@ -28,4 +28,13 @@ Ampliadas propiedades en interfaz (en futuro brindara mucha flexibilidad en func
 Componente de carga redisenado.  
 Preparando contextos para ampliar datos almacenados de analistas y legajos, y su cruce entre si, sin alterar DBs.  
 Refactorizados componentes varios.  
-Reestilizados componentes varios.
+Reestilizados componentes varios.  
+  
+  
+##### v0.1.5 - 06/Aug/2021.  
+Interfaces IAnalista e ILegajo ampliadas (pendiente limpieza de propiedades sin utilizar).  
+Quitados SCSS de componentes de tablas para unificar y controlar el estilo general de tablas desde App.scss  
+Refactorizado TablaLegajosAntiguos: Utiliza ahora TableTHSort para ordenar el contenido de la tabla.  
+Animacion de 'Carga' se inicia al hacer diferentes operaciones con firestore y se desmonta tras completarse.  
+Contexto de legajos ahora provee un contenido mas amplio, apoyandose en informacion de analistas.  
+Toggle de mostrar analistas de licencia en CuadroAnalistas ahora guarda y recupera su estado en localStorage.  

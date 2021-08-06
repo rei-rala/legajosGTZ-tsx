@@ -1,82 +1,66 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Analistas } from "../../contexts/AnalistasContext";
 import { Legajos } from "../../contexts/LegajosContext";
 
-import { IAnalista, ILegajo } from "../../interfaces/DB.interface";
+import { ILegajo } from "../../interfaces/DB.interface";
 
 
 import TableTHSort from "../TableTHSort/TableTHSort";
 
 
 const TablaLegajosAntiguos: React.FC = () => {
-  const { AnalistasFB } = useContext(Analistas);
-  const { LegajosFB } = useContext(Legajos);
+  const { LegajosFB, manageLegajos } = useContext(Legajos);
 
   const [legajosAntiguos, setLegajosAntiguos] = useState([]);
 
-  const [refreshState, setRefreshState] = useState(false);
-  const toggleRefreshState = () => setRefreshState(!refreshState);
-
-  const getDayDifference = (compare: any) => {
-    const todayValue = new Date().valueOf();
-    const compareValue = new Date(compare).valueOf();
-
-
-    return Math.ceil((todayValue - compareValue) / (1000 * 60 * 60 * 24));
-  }
+  const [refreshState, setRefreshState] = useState(0);
+  const toggleRefreshState = () => setRefreshState(refreshState + 1);
 
   useEffect(() => {
     if (LegajosFB) {
+      const antiguos = LegajosFB.filter((l: ILegajo) => (l.diasGR ? l.diasGR >= 5 : false))
 
-      // si se logro el fetch a legajos, filtro los que tengan una fecha mayor a 5 dias
-      const legajosAntiguos: [] = LegajosFB.filter((l: ILegajo) => getDayDifference((l.fechaIngresoFull).toDate()) > 5)
+      setLegajosAntiguos([])
+      setLegajosAntiguos(antiguos)
 
-      // a cada legajo con antiguedad mayor a 5 dias, le agrego la key de diasGR con su respectivo valor
-      legajosAntiguos.forEach((l: ILegajo) => l.diasGR = getDayDifference((l.fechaIngresoFull).toDate()))
-
-      setLegajosAntiguos(legajosAntiguos)
     }
-  }, [LegajosFB])
+  }, [LegajosFB, setLegajosAntiguos, refreshState])
+
 
   return (
     <section>
-      {
-        !legajosAntiguos
-          ? <h3>No hay legajos con mas de 5 dias</h3>
-          : <>
-            <h3>Legajos con mas de 5 dias</h3>
-            <div className="tablaLegajosAntiguosContainer">
-              <table>
-                <thead>
-                  <tr>
-                    <TableTHSort source={legajosAntiguos} sortParameter={'fechaIngresoFull'} refreshUseEffect={toggleRefreshState} management={setLegajosAntiguos}>Fecha de ingreso</TableTHSort>
-                    <th scope='col'>Razon Social</th>
-                    <th scope='col'>Nivel Legajo</th>
-                    <th scope='col'>Dias en GR</th>
-                    <th scope='col'>th 5</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    legajosAntiguos.map((l: ILegajo) => <tr key={l.id}>
-                      <td>
-                        {l.fechaIngresoShort}
-                      </td>
-                      <td>
-                        {l.razonSocial}
-                      </td>
-                      <td>
-                        {l.nivelLegajo}
-                      </td>
-                      <td>{l.diasGR}</td>
-                      <td></td>
-                    </tr>)
-                  }
-                </tbody>
-              </table>
-            </div>
-          </>
-      }
+      <div>
+        {
+          !legajosAntiguos
+            ? <h3>No hay legajos con mas de 5 dias</h3>
+            : <>
+              <h3>Legajos con mas de 5 dias</h3>
+              <div className="tablaLegajosAntiguosContainer tabla">
+                <table>
+                  <thead>
+                    <tr>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'fechaIngresoFull'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>Ingreso</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'razonSocial'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>Razon Social</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'nivelLegajo'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>Nivel</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'diasGR'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>Dias GR</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'diasAsignado'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>D. Asignado</TableTHSort>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      legajosAntiguos.map((l: ILegajo) => <tr key={l.id}>
+                        <td>{l.fechaIngresoShort}</td>
+                        <td>{l.razonSocial}</td>
+                        <td>{l.nivelLegajo}</td>
+                        <td>{l.diasGR}</td>
+                        <td>{l.diasAsignado === -999 ? 'No asignado' : l.diasAsignado}</td>
+                      </tr>)
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </>
+        }
+      </div>
     </section>
   );
 };

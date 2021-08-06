@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Analistas } from "../../contexts/AnalistasContext";
 import { Legajos } from "../../contexts/LegajosContext";
 
-import { IAnalista, ILegajo } from "../../interfaces/DB.interface";
+import { ILegajo } from "../../interfaces/DB.interface";
 
-import "./tablaLegajos.scss";
 import TableTHSort from "../TableTHSort/TableTHSort";
 
 const TablaLegajos: React.FC = () => {
-  const { AnalistasFB } = useContext(Analistas);
   const { LegajosFB, manageLegajos, quitarLegajo } = useContext(Legajos);
 
   const [tablaLegajos, setTablaLegajos] = useState([]);
@@ -17,22 +14,17 @@ const TablaLegajos: React.FC = () => {
   const toggleRefreshState = () => setRefreshState(!refreshState);
 
   useEffect(() => {
-    if (LegajosFB && AnalistasFB) {
+    if (LegajosFB) {
       setTablaLegajos([]);
-      const LegajosTabla = LegajosFB;
 
-      LegajosTabla.forEach((l: ILegajo) => {
-        l.analistaAsignadoNombre = (AnalistasFB.find((a: IAnalista) => a.id === l.analistaAsignadoId).nombre);
-        l.tipoAnalista = AnalistasFB.find((a: IAnalista) => a.id === l.analistaAsignadoId).tipoAnalista
-      })
-      console.table(LegajosTabla)
-      setTablaLegajos(LegajosTabla);
+      console.table(LegajosFB)
+      setTablaLegajos(LegajosFB);
     }
-  }, [LegajosFB, AnalistasFB]);
+  }, [LegajosFB]);
 
   return (
     <section>
-      <div className="tablaLegajosContainer">
+      <div className="tablaLegajosContainer tabla">
         <table>
           <thead>
             <tr>
@@ -126,16 +118,16 @@ const TablaLegajos: React.FC = () => {
                             <>
                               <td>
                                 <span className="nombreAnalista" title={`Click para desasignar ${l.razonSocial}`} data-idlegajo={l.id} onClick={quitarLegajo}>
-                                  {l.analistaAsignadoNombre}
+                                  {l.analistaNombre}
                                 </span>
                               </td>
                               <td>
-                                {l.tipoAnalista}
+                                {l.analistaTipo}
                               </td>
                             </>
                             : <>
-                              <td>Cargando</td>
-                              <td>Cargando</td>
+                              <td></td>
+                              <td></td>
                             </>
                         }
                       </tr>

@@ -17,3 +17,14 @@
     height: 3rem;
   }
 }
+
+@media screen and (max-width: 864px) {
+  .header {
+    height: 2rem;
+    width: auto;
+
+    img {
+      height: 2rem;
+    }
+  }
+}

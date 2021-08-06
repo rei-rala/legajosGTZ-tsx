@@ -5,13 +5,19 @@ import { db } from '../fbase/firebase';
 export const Analistas = createContext();
 
 export const AnalistasContext = ({ children }) => {
+
   const [AnalistasFB, setAnalistasFB] = useState(null)
   const manageAnalistas = arrayAnalistas => setAnalistasFB(arrayAnalistas);
 
   const [toggleRefresh, setToggleRefresh] = useState(0)
   const activateRefresh = () => setToggleRefresh(toggleRefresh + 1)
 
+  const [busyLoadingAnalistas, setBusyLoadingAnalistas] = useState(false);
+  const manageLoadState = (boolean) => setBusyLoadingAnalistas(boolean)
+
   useEffect(() => {
+    manageLoadState(true)
+
     db.collection('analistas')
       .get().then(query => query.docs.map(doc => {
         return { id: doc.id, ...doc.data() }
@@ -19,6 +25,10 @@ export const AnalistasContext = ({ children }) => {
       .then(analistasDB => analistasDB.sort((a, b) => a.nombre.localeCompare(b.nombre)))
       .then(manageAnalistas)
       .catch(console.error)
+      .finally(() => {
+
+        manageLoadState(false)
+      })
   }, [toggleRefresh])
 
   const toggleLicencia = (idAnalista, actualmenteLicencia) => {
@@ -35,16 +45,16 @@ export const AnalistasContext = ({ children }) => {
         .then(() => {
           activateRefresh()
         })
-        .then(() => {
-          alert(`Licencia ${actualmenteLicencia ? 'removida' : 'colocada'} para ${analista.nombre}`)
-        })
         .catch((error) => {
           alert("Hubo un error al actualizar:\n", error);
-        });
+        })
+        .finally(() => {
+          alert(`Licencia ${actualmenteLicencia ? 'removida' : 'colocada'} para ${analista.nombre}`)
+        })
 
     }
   }
 
 
-  return <Analistas.Provider value={{ AnalistasFB, manageAnalistas, toggleLicencia }}> {children} </Analistas.Provider>;
+  return <Analistas.Provider value={{ busyLoadingAnalistas, AnalistasFB, manageAnalistas, toggleLicencia }}> {children} </Analistas.Provider>;
 }

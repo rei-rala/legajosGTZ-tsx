@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import { Legajos } from "../../contexts/LegajosContext";
+import { Analistas } from "../../contexts/AnalistasContext";
 import Logo from "./isotipo.png";
 
 import "./loadingGTZ.scss";
 
 const LoadingGTZ: React.FC = () => {
-  const { LegajosFB } = useContext(Legajos);
+  const { LegajosFB, busyLoadingLegajos } = useContext(Legajos);
+  const { AnalistasFB, busyLoadingAnalistas } = useContext(Analistas)
 
-  return LegajosFB ? (
-    <></>
-  ) : (
+  return !LegajosFB || !AnalistasFB || busyLoadingAnalistas || busyLoadingLegajos ? (
     <section className="loadContainer">
       <img className="box three" src={Logo} alt="GTZ" />
       <img className="box two" src={Logo} alt="GTZ" />
@@ -18,6 +18,8 @@ const LoadingGTZ: React.FC = () => {
       <img className="box three" src={Logo} alt="GTZ" />
       {/* <img className='loadingImg' src="https://firebasestorage.googleapis.com/v0/b/legajos-gtz.appspot.com/o/isotipo.png?alt=media&token=97625fb0-bc1c-420b-98cb-9deab0713e31" alt="GTZ" /> */}
     </section>
+  ) : (
+    <></>
   );
 };
 

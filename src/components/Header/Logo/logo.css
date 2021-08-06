@@ -15,6 +15,12 @@
 
 @media screen and (max-width: 864px) {
   .logot {
+    height: 2rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .logot {
     display: none;
   }
 }

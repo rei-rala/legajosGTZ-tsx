@@ -4,6 +4,8 @@ export interface IAnalista {
   nivelPredefinido: string;
   tipoAnalista: string;
   licencia: boolean;
+
+  cantidadLegajos?: number;
 }
 
 export interface ILegajo {
@@ -18,7 +20,12 @@ export interface ILegajo {
   fechaAsignadoFull: Date;
   nivelLegajo: string;
   razonSocial: string;
+
   analistaAsignadoNombre?: string;
   tipoAnalista?: string;
+
+  analistaNombre?: string;
+  analistaTipo?: string;
   diasGR?: number;
+  diasAsignado?: number;
 }

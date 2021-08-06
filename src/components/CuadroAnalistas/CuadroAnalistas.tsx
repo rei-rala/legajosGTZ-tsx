@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Analistas } from "../../contexts/AnalistasContext";
 import { Legajos } from "../../contexts/LegajosContext";
@@ -13,7 +14,23 @@ const CuadroAnalistas: React.FC = () => {
   const { LegajosFB } = useContext(Legajos);
 
   const [mostrarAusencias, setMostrarAusencias] = useState(false);
-  const manageAusencias = () => setMostrarAusencias(!mostrarAusencias);
+  const manageAusencias = () => {
+    setMostrarAusencias(!mostrarAusencias)
+    localStorage.setItem('gtzOctultarAusencias', JSON.stringify(!mostrarAusencias))
+  };
+
+  useEffect(() => {
+    const ls = (localStorage.getItem('gtzOctultarAusencias') || 'nada')
+
+    if (ls !== 'nada') {
+      const boolLs: boolean = JSON.parse(ls)
+
+      if (mostrarAusencias !== boolLs) {
+        setMostrarAusencias(boolLs)
+      }
+    }
+
+  }, [mostrarAusencias])
 
   return (
     <section className="vistaCuadroAnalista">
