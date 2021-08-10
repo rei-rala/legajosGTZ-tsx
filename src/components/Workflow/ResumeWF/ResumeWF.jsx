@@ -132,7 +132,6 @@ const ResumeWF = ({ encabezadosShorted, tables, normalizeField }) => {
   }, [tables, filter, refresh])
 
   useEffect(() => {
-
   }, [sortRefresh])
 
   return (
@@ -240,7 +239,7 @@ const ResumeWF = ({ encabezadosShorted, tables, normalizeField }) => {
                     key={index}
                     source={anaTardios}
                     sortParameter={normalizeField(e)}
-                    management={manageSupTardios}
+                    management={manageAnaTardios}
                     refreshUseEffect={refreshBySort}
                   >
                     {e}

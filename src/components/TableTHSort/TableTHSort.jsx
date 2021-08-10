@@ -42,13 +42,21 @@ const TableTHSort = ({
   return (
     <th
       scope="col"
-      className={currentSort[1] === sortParameter ? "activeSortMethod" : ""}
+      className={currentSort[0] === sortParameter ? "sortMethod activeSortMethod" : "sortMethod"}
       onClick={() => {
         sortingFunction(sortParameter);
         refreshUseEffect();
       }}
+      title={`Click para ordenar por ${sortParameter}`}
     >
-      {children}
+      {<>{children}
+        <span className='ordenIndicador'>{
+          currentSort[1] === 'ascendente' && currentSort[0] === sortParameter
+            ? '↑'
+            : currentSort[1] === 'descendente' && currentSort[0] === sortParameter
+              ? '↓'
+              : '~'
+        }</span></>}
     </th >
   );
 };

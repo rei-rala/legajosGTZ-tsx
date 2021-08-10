@@ -47,4 +47,6 @@ Workflow se guarda en localStorage al realizar consulta.
 Fixed animacion de carga.  
 Pequeña descripcion en cada panel.  
 TODO: Mejorar codigo y estilo en Workflow (y en general... bue).  
-*Perdon TypeScript y todo aquel que vea mi codigo*
+*Perdon TypeScript y todo aquel que vea mi codigo*  
++Hotfix de ordenamiento al hacer click sobre tabla 'analisis' en Resumen de Workflow  
++Añadida claridad para saber cuando se esta ordenando una tabla (corregir actualizacion por filtro)

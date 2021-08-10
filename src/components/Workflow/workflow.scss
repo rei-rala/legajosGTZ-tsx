@@ -73,6 +73,13 @@
   td {
     padding: 0.1rem 0.25rem;
   }
+
+  .ordenIndicador {
+    height: 2rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: hotpink;
+  }
 }
 
 .mini {
@@ -98,4 +105,8 @@
   input[type="number"] {
     max-width: 3rem;
   }
+}
+
+.sortMethod {
+  cursor: pointer;
 }
