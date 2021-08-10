@@ -1,0 +1,101 @@
+@keyframes pulseRes {
+  0%,
+  100% {
+    transform: scale(1);
+    background-color: hsla(197, 75%, 86%, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    background-color: hsla(197, 75%, 86%, 0.1);
+  }
+}
+
+.ingresoWF {
+  display: flex;
+  flex-direction: column;
+  max-width: 50%;
+  margin: auto;
+  margin-bottom: 1rem;
+
+  textarea {
+    height: 5rem;
+  }
+  button {
+    color: green;
+    border-color: green;
+    transition: all 1s;
+  }
+  button:hover {
+    transform: scale(1.05);
+    border-radius: 1rem;
+  }
+}
+
+.buttonWF {
+  max-width: 75%;
+  margin: auto;
+  margin-bottom: 1rem;
+
+  button {
+    margin: 0.5rem 0.1rem;
+    padding: 0.1rem 0;
+    width: 5rem;
+    border-color: #0b7cc1;
+    color: #0b7cc1;
+    background-color: white;
+    border-radius: 0.5rem;
+    transition: 0.1s all;
+  }
+  button:hover {
+    background-color: #bfe6f6;
+    color: black;
+  }
+
+  .resumenBtn {
+    animation: 1.5s pulseRes infinite ease-in-out;
+  }
+}
+
+.table {
+  overflow-x: scroll;
+
+  thead {
+    th {
+      background-color: aquamarine;
+    }
+  }
+}
+
+.workflowTable,
+.less {
+  font-size: 0.8rem !important;
+  th,
+  td {
+    padding: 0.1rem 0.25rem;
+  }
+}
+
+.mini {
+  margin: 1rem auto !important ;
+  max-width: 15rem;
+}
+.resume {
+  tr:nth-child(2) {
+    border-bottom: 3px solid #0b7cc1;
+  }
+}
+
+.less {
+  margin: 1rem 0;
+}
+
+.fullWidth {
+  display: flex;
+  justify-content: center;
+  column-gap: 0.5rem;
+  width: 100%;
+
+  input[type="number"] {
+    max-width: 3rem;
+  }
+}

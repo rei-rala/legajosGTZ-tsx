@@ -27,6 +27,8 @@ section {
     border-radius: 1rem;
     overflow: hidden;
 
+    overflow-x: auto;
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -62,6 +64,10 @@ section {
         }
         .nombreAnalista:hover {
           color: red;
+        }
+
+        td {
+          max-width: 300px;
         }
       }
     }

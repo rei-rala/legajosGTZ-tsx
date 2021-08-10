@@ -32,9 +32,19 @@ Reestilizados componentes varios.
   
   
 ##### v0.1.5 - 06/Aug/2021.  
+Mejorado navbar mobile.  
 Interfaces IAnalista e ILegajo ampliadas (pendiente limpieza de propiedades sin utilizar).  
 Quitados SCSS de componentes de tablas para unificar y controlar el estilo general de tablas desde App.scss  
 Refactorizado TablaLegajosAntiguos: Utiliza ahora TableTHSort para ordenar el contenido de la tabla.  
 Animacion de 'Carga' se inicia al hacer diferentes operaciones con firestore y se desmonta tras completarse.  
 Contexto de legajos ahora provee un contenido mas amplio, apoyandose en informacion de analistas.  
 Toggle de mostrar analistas de licencia en CuadroAnalistas ahora guarda y recupera su estado en localStorage.  
+  
+  
+##### v0.4.0 - 10/Aug/2021.  
+Seccion Workflow: Automatizacion del reporte: El reporte de WF recopila y brinda informacion sobre los legajos, desglosa y totaliza por estados, resalta legajos antiguos y sumariza en un pequeño cuadrito, todo al alcance de un click.  
+Workflow se guarda en localStorage al realizar consulta.  
+Fixed animacion de carga.  
+Pequeña descripcion en cada panel.  
+TODO: Mejorar codigo y estilo en Workflow (y en general... bue).  
+*Perdon TypeScript y todo aquel que vea mi codigo*

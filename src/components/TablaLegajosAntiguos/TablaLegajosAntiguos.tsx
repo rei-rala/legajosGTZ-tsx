@@ -8,9 +8,10 @@ import TableTHSort from "../TableTHSort/TableTHSort";
 
 
 const TablaLegajosAntiguos: React.FC = () => {
-  const { LegajosFB, manageLegajos } = useContext(Legajos);
+  const { LegajosFB } = useContext(Legajos);
 
   const [legajosAntiguos, setLegajosAntiguos] = useState([]);
+  const manageLegajosAntiguos = (legAntiguos: any) => setLegajosAntiguos(legAntiguos)
 
   const [refreshState, setRefreshState] = useState(0);
   const toggleRefreshState = () => setRefreshState(refreshState + 1);
@@ -19,11 +20,12 @@ const TablaLegajosAntiguos: React.FC = () => {
     if (LegajosFB) {
       const antiguos = LegajosFB.filter((l: ILegajo) => (l.diasGR ? l.diasGR >= 5 : false))
 
-      setLegajosAntiguos([])
-      setLegajosAntiguos(antiguos)
-
+      if (antiguos.length !== legajosAntiguos.length) {
+        setLegajosAntiguos([])
+        setLegajosAntiguos(antiguos)
+      }
     }
-  }, [LegajosFB, setLegajosAntiguos, refreshState])
+  }, [LegajosFB, setLegajosAntiguos, refreshState, legajosAntiguos.length])
 
 
   return (
@@ -38,11 +40,11 @@ const TablaLegajosAntiguos: React.FC = () => {
                 <table>
                   <thead>
                     <tr>
-                      <TableTHSort source={legajosAntiguos} sortParameter={'fechaIngresoFull'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>Ingreso</TableTHSort>
-                      <TableTHSort source={legajosAntiguos} sortParameter={'razonSocial'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>Razon Social</TableTHSort>
-                      <TableTHSort source={legajosAntiguos} sortParameter={'nivelLegajo'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>Nivel</TableTHSort>
-                      <TableTHSort source={legajosAntiguos} sortParameter={'diasGR'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>Dias GR</TableTHSort>
-                      <TableTHSort source={legajosAntiguos} sortParameter={'diasAsignado'} refreshUseEffect={toggleRefreshState} management={manageLegajos}>D. Asignado</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'fechaIngresoFull'} refreshUseEffect={toggleRefreshState} management={manageLegajosAntiguos}>Ingreso</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'razonSocial'} refreshUseEffect={toggleRefreshState} management={manageLegajosAntiguos}>Razon Social</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'nivelLegajo'} refreshUseEffect={toggleRefreshState} management={manageLegajosAntiguos}>Nivel</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'diasGR'} refreshUseEffect={toggleRefreshState} management={manageLegajosAntiguos}>Dias GR</TableTHSort>
+                      <TableTHSort source={legajosAntiguos} sortParameter={'diasAsignado'} refreshUseEffect={toggleRefreshState} management={manageLegajosAntiguos}>D. Asignado</TableTHSort>
                     </tr>
                   </thead>
                   <tbody>

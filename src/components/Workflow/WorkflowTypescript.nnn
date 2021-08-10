@@ -1,0 +1,167 @@
+import React, { useState } from "react";
+
+import './workflow.scss'
+
+const Workflow: React.FC = () => {
+  const [encabezados, setEncabezados] = useState([])
+  const [datosLegajos, setDatosLegajos] = useState([])
+
+  const manageEncabezados = (anyShit: any) => setEncabezados(anyShit)
+  const manageDatosLegajos = (anyShit: any) => setDatosLegajos(anyShit)
+
+
+  const formAct = (e: React.SyntheticEvent) => {
+    e.preventDefault()
+
+    const target = e.target as typeof e.target & {
+      /*       encabezados: { value: string };
+            legajos: { value: string }; */
+      testeo: { value: string };
+
+    };
+    /* 
+        const encabezados = target.encabezados.value;
+        const legajos = target.legajos.value; */
+    const testeo = target.testeo.value;
+
+    // nada dinamico por desgracia
+    const indexesWorkflow = [1, 2, 4, 14, 15, 16, 17, 18, 19, 22, 23, 30, 46, 47]
+
+    const promise = new Promise((resolve) => {
+      resolve(testeo)
+    })
+      .then((valueCompleto: any) => {
+        const lines = valueCompleto.split('\n')
+        const fields = lines[0].split('\t')
+        const newFields = fields.map((any: string) => any
+          .replaceAll(' ' || '(' || ')', '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, ""))
+
+        return newFields
+      })
+      .then((campos: []) => {
+
+        campos.forEach((pos: string) => {
+          const x: string = pos
+          if (campos.indexOf(x)) {
+            console.info(x)
+          }
+        })
+      })
+    //.then()
+  }
+
+
+  // creo esta interface, algun dia hare todo esto dinamico o utilizando la db o vista, pero por ahora, el nro de columna estara hardcodeado
+  interface IWholeWorkflow {
+    CodigoSolicitud: number,                 //  COLUMNA 1
+    EstadoExpediente: string,                 //  COLUMNA 2
+    RazonSocial: string,                 //  COLUMNA 4
+    IngresoRiesgo: string,                 //  COLUMNA 14
+    AsignacionAnalistaRiesgo: string,                 //  COLUMNA 15
+    FaltaInformacion: string,                 //  COLUMNA 16
+    PrimeraFechaFaltaInformacióndeComercial: string,                 //  COLUMNA  17
+    UltimaFechaReingresoaRiesgo: string,                 //  COLUMNA 18
+    FinalizaciónAnálisisRiesgo: string,                 //  COLUMNA 19
+    AsesorComercial: string,                 //  COLUMNA 22
+    SucursalGarantizar: string,                 //  COLUMNA 23
+    AnalistaRiesgo: string,                 //  COLUMNA 30
+    FechaDevoluciónRiesgos: string,                 //  COLUMNA 46
+    FinalizaciónAnalistaRiesgo: string,                 //  COLUMNA 47
+
+    resto?: any,                 //  todas las otras columnas, dan igual por ahora
+  }
+
+
+  let algo = [1
+    /* //Expediente
+    Codigo Solicitud
+    Estado Expediente
+    //Código Empresa
+    Razón Social
+    CUIT
+    // Código Socio
+    //Fecha Alta Socio
+    //Solicitud	Documentación Completa
+    //Documentación Aprobada
+    //Ingreso Bastanteo
+    //Asignación Analista Bastanteo
+    //Finalización Analista Bastanteo
+    Ingreso Riesgo
+    Asignación Analista Riesgo
+    Falta Información
+    Primera Fecha Falta Información de Comercial
+    Ultima Fecha Reingreso a Riesgo
+    Finalización Análisis Riesgo
+    //Resolución
+    //Formalización	
+    Asesor Comercial
+    Sucursal Garantizar
+    //Categoria Canal Solicitud
+    //SubCategoria Canal Solicitud
+    //Canal Solicitud	Tipo Línea Solicitud
+    //Línea Solicitud	SubLínea Solicitud
+    Analista Riesgo
+    //Moneda Solicitud
+    //Importe Solicitado Moneda Original
+    //Importe Solicitado En Pesos
+    //Moneda Resolucion
+    //Importe Aprobado Moneda Original
+    //Importe Aprobado En Pesos
+    //Moneda Formalizacion
+    //Importe Formalizado Moneda Original
+    //Importe Formalizado En Pesos
+    //Riesgo Vivo Potencial (Sin CPD Terceros)
+    //Entidad Financiera Solicitud
+    //Sucursal Entidad Financiera Solicitud
+    //Canal Análisis Solicitud
+    //Grupo de Canal Análisis según SGA
+    //Grupo de Canal Análisis según BPM
+    Fecha Devolución Riesgos
+    Finalización Analista Riesgo */
+  ]
+
+  return (<section>
+    Soy un wf
+
+    <form onSubmit={formAct}>
+      {/*       <textarea name="encabezados" placeholder='Ingrese los encabezados del workflow'></textarea>
+      <textarea name="legajos" placeholder='Ingrese los datos. Deben coincidir con los encabezados'></textarea>
+ */}
+      <textarea name="testeo" placeholder='asd'></textarea>
+      <button>Hola</button>
+    </form>
+
+    <div className="tabla">
+      <table>
+        <thead>
+          <tr>
+            {
+              !encabezados
+                ? <th>Ingrese algo antes</th>
+                : encabezados.map((e: string) => <th scope='col' key={e}>{e}</th>)
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {
+            datosLegajos
+            /*             !datosLegajos
+                          ? <tr><th>Ingrese Valor valido</th></tr>
+                          : datosLegajos.map((line: string) => <tr
+                          >
+                            {
+                              line
+                                .split('\t')
+                                .map((x: string) => <td>{x}</td>)
+                            }
+                          </tr>) */
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>)
+}
+
+export default Workflow

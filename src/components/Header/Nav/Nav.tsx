@@ -22,6 +22,11 @@ const Nav: React.FC = () => (
           Legajos
         </NavLink>
       </li>
+      <li>
+        <NavLink to="/workflow" activeClassName="onPage">
+          Workflow
+        </NavLink>
+      </li>
     </ul>
   </nav>
 );
