@@ -54,15 +54,16 @@ const WorkflowModule = () => {
 
 
 
-  return (<section>
+  return (<section className='resumeSection'>
 
+    <h4 className='subTitleWF'>Copie debajo las celdas del Workflow <u>sin duplicados por solicitud</u><br />Luego genere la tabla con el boton</h4>
     <form className='ingresoWF' onSubmit={formAct}>
       <textarea name="testeo" placeholder='Ingrese' defaultValue={JSON.parse(localStorage.getItem('workflowSave')) || ''} />
       <button>Generar tabla</button>
-      <button type='reset' onClick={e => {
-        localStorage.setItem('workflowSave', JSON.stringify(''))
+      {/*       <button type='reset' onClick={e => {
+        localStorage.setItem('workflowSave', JSON.stringify(' '))
         manageFullData(JSON.parse(localStorage.getItem('workflowSave')))
-      }}>Borrar datos</button>
+      }}>Borrar datos</button> */}
     </form>
 
     {

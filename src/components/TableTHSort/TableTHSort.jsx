@@ -55,7 +55,7 @@ const TableTHSort = ({
             ? '↑'
             : currentSort[1] === 'descendente' && currentSort[0] === sortParameter
               ? '↓'
-              : '~'
+              : ''
         }</span></>}
     </th >
   );

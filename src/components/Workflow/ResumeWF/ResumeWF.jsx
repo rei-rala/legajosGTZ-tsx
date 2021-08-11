@@ -10,6 +10,9 @@ const ResumeWF = ({ encabezadosShorted, tables, normalizeField }) => {
   const [encabezadosLeast, setEncabezadosLeast] = useState();
   const manageEncabezadosLeast = (encabezados) => setEncabezadosLeast(encabezados)
 
+  const [cantIngresosDia, setCantIngresosDia] = useState(-1);
+  const manageCantIngresosDia = (cant) => setCantIngresosDia(cant);
+
   const [supTardios, setSupTardios] = useState(null)
   const manageSupTardios = (supervision) => setSupTardios(supervision)
 
@@ -60,74 +63,76 @@ const ResumeWF = ({ encabezadosShorted, tables, normalizeField }) => {
 
   useEffect(() => {
     if (tables) {
-      const analisisTardios = () => {
-        const listaAnaTardios = [];
-        (tables.analisis.table).forEach(leg => {
-          const fechaIngreso = new Date(
-            leg.IngresoRiesgo.substr(6, 4),
-            leg.IngresoRiesgo.substr(3, 2) - 1,
-            leg.IngresoRiesgo.substr(0, 2),
-            0, 0, 0
-          )
 
-          let diasPendiente = 1;
-          if (leg.UltimaFechaReingresoaRiesgo !== ' ') {
-            const entraPendiente = new Date(leg.PrimeraFechaFaltaInformaciondeComercial.substr(6, 4), leg.PrimeraFechaFaltaInformaciondeComercial.substr(3, 2) - 1, leg.PrimeraFechaFaltaInformaciondeComercial.substr(0, 2) - 1)
-            const salePendiente = new Date(leg.UltimaFechaReingresoaRiesgo.substr(6, 4), leg.UltimaFechaReingresoaRiesgo.substr(3, 2) - 1, leg.UltimaFechaReingresoaRiesgo.substr(0, 2) - 1)
-
-            diasPendiente = Math.ceil((salePendiente - entraPendiente) / (1000 * 3600 * 24))
-            console.log(leg.PrimeraFechaFaltaInformaciondeComercial)
-          }
+      const d = new Date(filter.fecha);
+      const dateInputWF = (
+        `${d.getDate() < 9 ? '0' + (d.getDate() + 1) : (d.getDate() + 1)}/${d.getMonth() < 9 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)}/${d.getFullYear()}`
+      )
+      manageCantIngresosDia(
+        (tables['base'].table).filter(a => a.IngresoRiesgo === dateInputWF).length
+      )
 
 
-          const diff = Math.ceil(((new Date(filter.fecha) - fechaIngreso) / (1000 * 3600 * 24)) - diasPendiente);
+      const listaAnaTardios = [];
+      (tables.analisis.table).forEach(leg => {
+        const fechaIngreso = new Date(
+          leg.IngresoRiesgo.substr(6, 4),
+          leg.IngresoRiesgo.substr(3, 2) - 1,
+          leg.IngresoRiesgo.substr(0, 2),
+          0, 0, 0
+        )
 
-          if (diff > filter.dias) {
-            //console.info(`${leg.RazonSocial}\n${new Date()}\n - \n${fechaIngreso}\n = ${diff}`)
-            listaAnaTardios.push({ ...leg, diasGR: diff })
-          }
-        })
-        manageAnaTardios(listaAnaTardios)
-      }
+        let diasPendiente = 1;
+        if (leg.UltimaFechaReingresoaRiesgo !== ' ') {
+          const entraPendiente = new Date(leg.PrimeraFechaFaltaInformaciondeComercial.substr(6, 4), leg.PrimeraFechaFaltaInformaciondeComercial.substr(3, 2) - 1, leg.PrimeraFechaFaltaInformaciondeComercial.substr(0, 2) - 1)
+          const salePendiente = new Date(leg.UltimaFechaReingresoaRiesgo.substr(6, 4), leg.UltimaFechaReingresoaRiesgo.substr(3, 2) - 1, leg.UltimaFechaReingresoaRiesgo.substr(0, 2) - 1)
 
-      analisisTardios()
-      const supervisionTardios = () => {
-        const listaSupTardios = [];
-        (tables.supervisar.table).forEach(leg => {
-          const fechaIngreso = new Date(
-            leg.IngresoRiesgo.substr(6, 4),
-            leg.IngresoRiesgo.substr(3, 2) - 1,
-            leg.IngresoRiesgo.substr(0, 2),
-            0, 0, 0
-          )
-
-          let diasPendiente = 1;
-          if (leg.UltimaFechaReingresoaRiesgo !== ' ') {
-            const entraPendiente = new Date(leg.PrimeraFechaFaltaInformaciondeComercial.substr(6, 4), leg.PrimeraFechaFaltaInformaciondeComercial.substr(3, 2) - 1, leg.PrimeraFechaFaltaInformaciondeComercial.substr(0, 2), 0, 0, 0)
-            const salePendiente = new Date(leg.UltimaFechaReingresoaRiesgo.substr(6, 4), leg.UltimaFechaReingresoaRiesgo.substr(3, 2) - 1, leg.UltimaFechaReingresoaRiesgo.substr(0, 2), 0, 0, 0)
-
-            diasPendiente = Math.ceil((salePendiente - entraPendiente) / (1000 * 3600 * 24))
-          }
-          const fechaFinalizado = new Date(
-            leg.FinalizacionAnalistaRiesgo.substr(6, 4),
-            leg.FinalizacionAnalistaRiesgo.substr(3, 2) - 1,
-            leg.FinalizacionAnalistaRiesgo.substr(0, 2),
-            0, 0, 0
-          )
-
-          const diff = Math.ceil(((new Date(filter.fecha) - fechaIngreso) / (1000 * 3600 * 24))) - diasPendiente;
-          const diffSupervision = Math.ceil(((new Date(filter.fecha) - fechaFinalizado) / (1000 * 3600 * 24)))
-
-          if (diff > filter.dias) {
-            listaSupTardios.push({ ...leg, diasGR: diff, diasSupervision: diffSupervision })
-          }
-        })
-        manageSupTardios(listaSupTardios)
+          diasPendiente = Math.ceil((salePendiente - entraPendiente) / (1000 * 3600 * 24))
+          console.log(leg.PrimeraFechaFaltaInformaciondeComercial)
+        }
 
 
-      }
-      supervisionTardios()
+        const diff = Math.ceil(((new Date(filter.fecha) - fechaIngreso) / (1000 * 3600 * 24)) - diasPendiente);
 
+        if (diff > filter.dias) {
+          //console.info(`${ leg.RazonSocial } \n${ new Date() } \n - \n${ fechaIngreso } \n = ${ diff } `)
+          listaAnaTardios.push({ ...leg, diasGR: diff })
+        }
+      })
+      manageAnaTardios(listaAnaTardios)
+
+
+      const listaSupTardios = [];
+      (tables.supervisar.table).forEach(leg => {
+        const fechaIngreso = new Date(
+          leg.IngresoRiesgo.substr(6, 4),
+          leg.IngresoRiesgo.substr(3, 2) - 1,
+          leg.IngresoRiesgo.substr(0, 2),
+          0, 0, 0
+        )
+
+        let diasPendiente = 1;
+        if (leg.UltimaFechaReingresoaRiesgo !== ' ') {
+          const entraPendiente = new Date(leg.PrimeraFechaFaltaInformaciondeComercial.substr(6, 4), leg.PrimeraFechaFaltaInformaciondeComercial.substr(3, 2) - 1, leg.PrimeraFechaFaltaInformaciondeComercial.substr(0, 2), 0, 0, 0)
+          const salePendiente = new Date(leg.UltimaFechaReingresoaRiesgo.substr(6, 4), leg.UltimaFechaReingresoaRiesgo.substr(3, 2) - 1, leg.UltimaFechaReingresoaRiesgo.substr(0, 2), 0, 0, 0)
+
+          diasPendiente = Math.ceil((salePendiente - entraPendiente) / (1000 * 3600 * 24))
+        }
+        const fechaFinalizado = new Date(
+          leg.FinalizacionAnalistaRiesgo.substr(6, 4),
+          leg.FinalizacionAnalistaRiesgo.substr(3, 2) - 1,
+          leg.FinalizacionAnalistaRiesgo.substr(0, 2),
+          0, 0, 0
+        )
+
+        const diff = Math.ceil(((new Date(filter.fecha) - fechaIngreso) / (1000 * 3600 * 24))) - diasPendiente;
+        const diffSupervision = Math.ceil(((new Date(filter.fecha) - fechaFinalizado) / (1000 * 3600 * 24)))
+
+        if (diff > filter.dias) {
+          listaSupTardios.push({ ...leg, diasGR: diff, diasSupervision: diffSupervision })
+        }
+      })
+      manageSupTardios(listaSupTardios)
     }
   }, [tables, filter, refresh])
 
@@ -154,7 +159,7 @@ const ResumeWF = ({ encabezadosShorted, tables, normalizeField }) => {
                   : <>
                     {
                       (Object.entries(tables)).map((t, index) => (
-                        t[0] === 'devueltas'
+                        t[0] === 'devueltas' || t[0] === 'base'
                           ? null
                           :
                           <tr key={index}>
@@ -170,6 +175,27 @@ const ResumeWF = ({ encabezadosShorted, tables, normalizeField }) => {
         </table>
       </div>
 
+      <div className="leyendaResumenes">
+        <p className='leyendaGR'>
+          Contamos con
+          <span className='cantidadLegajosGR'>
+            {
+              tables
+                ? (Object.entries(tables)).reduce((total, legajos) => {
+                  if (legajos[0] !== 'ingresar' && legajos[0] !== 'devueltas' && legajos[0] !== 'base') { return total + legajos[1].cantidad }
+                  else return total
+                }, 0)
+                : 'Se produjo un error'
+            }
+          </span>
+          legajos en riesgos.
+        </p>
+        <p>
+          En el <span title={filter.fecha} className='diaInfo'> dia</span> hubo {tables ? cantIngresosDia : 'ERROR'} ingresos
+        </p>
+
+      </div>
+
       <form onSubmit={manageMainFilter} className='fullWidth'>
         <div>
           <label htmlFor="fechaCalculo">Fecha calculo</label>
@@ -181,7 +207,10 @@ const ResumeWF = ({ encabezadosShorted, tables, normalizeField }) => {
         </div>
 
         <button>Filtrar</button>
-        <button type='reset' onClick={() => { manageFilter(new Date().toISOString().slice(0, 10), 5) }}>Reset</button>
+        <button type='reset' onClick={() => {
+          manageFilter(new Date().toISOString().slice(0, 10), 5)
+          toggleRefresh()
+        }}>Reset</button>
       </form>
 
       <div className="tabla less">

@@ -66,7 +66,16 @@ export const WorkflowContext = ({ children }) => {
                 row[colDescription[j]] = legajosFull[i][j].replace(/\s\s+/g, ' ');
               }
             }
+
             rowsLegajosShort.push(row)
+            /* 
+            // ? Hice este aproach para omitir los duplicados por CodigoSolicitud
+            rowsLegajosShort.forEach(l => {
+              if (l.CodigoSolicitud !== row.CodigoSolicitud)
+                rowsLegajosShort.push(row)
+            })
+            console.table(row.CodigoSolicitud)
+            */
           }
         }
         return rowsLegajosShort
@@ -116,6 +125,10 @@ export const WorkflowContext = ({ children }) => {
       ))
 
       manageT({
+        base: {
+          table: base,
+          cantidad: base.length,
+        },
         ingresar: {
           table: ingresarListado,
           cantidad: ingresarListado.length,
@@ -142,8 +155,6 @@ export const WorkflowContext = ({ children }) => {
         },
       })
     }
-
-
   }, [analisisListado, ingresarListado])
 
   return <Workflow.Provider value={{

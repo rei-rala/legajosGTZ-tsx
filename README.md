@@ -49,4 +49,6 @@ Pequeña descripcion en cada panel.
 TODO: Mejorar codigo y estilo en Workflow (y en general... bue).  
 *Perdon TypeScript y todo aquel que vea mi codigo*  
 +Hotfix de ordenamiento al hacer click sobre tabla 'analisis' en Resumen de Workflow  
-+Añadida claridad para saber cuando se esta ordenando una tabla (corregir actualizacion por filtro)
++Añadida claridad para saber cuando se esta ordenando una tabla (corregir actualizacion por filtro)  
+++Añadido conteo de legajos totales en GR y de ingresos en el dia.  
+++Mas cambios menores en componentes y formato.
